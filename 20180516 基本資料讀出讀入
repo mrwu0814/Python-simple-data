@@ -1,0 +1,153 @@
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+#===================================================
+"讀取的檔案想查詢編碼 encoding
+
+
+"萬一想查編碼, 先把它轉成 txt 檔, 再這樣讀
+ 
+ a = open('ff_1070131txt.txt')
+a
+
+
+##THIS
+
+b = pd.read_csv('ff_1070131.csv', encoding='cp950')
+
+
+#Making(Extracting) Test data
+d = b.head(30)
+
+#===================================================
+
+# TESTING, cp950 is for chinese traditional data
+
+b = pd.read_csv('111.csv', encoding='cp950')
+
+
+
+# Making a dataframe data
+df4 = pd.DataFrame({'A':['A0','A1','A2'],
+                    'B':[1,2,3]}, index=[1, 2, 3])
+
+df5 = pd.DataFrame({'A': ['A0', 'A1', 'A2', 'A3'],
+                   'B': ['B0', 'B1', 'B2', 'B3'],
+                  'C': ['C0', 'C1', 'C2', 'C3'],
+                     'D': [1, 2, 3, 4]},
+                    index=[0, 1, 2, 3])
+
+#加上新的變數 EE_ADD 從 D 變數抓過來 *5
+
+df5['EE_ADD'] = df5['D']*5
+
+#加上新變數已項目 Label 區分的
+
+df5['Weight'] = ['Fat','Skinny','Fat','Skinny']
+
+#刪除列
+
+del df5['EE_ADD']
+
+# 抓取特定的 Data D 大於或等於 3
+
+df5[df5.D >=3]
+
+# 抓的項目如果是文字項目可以用 .isin
+
+
+df5[df5['Weight'].isin(['Fat'])]
+
+#按照文字項目分類, 併計算總 D 值
+
+
+df5.groupby('Weight')
+df5.groupby('Weight').sum()
+
+
+
+#Trying to merge DataFrames
+
+"""國健署試著讀 SAS 檔時期"""
+
+import pandas as pd
+
+import numpy as np
+
+caller = pd.DataFrame({'Key':['K0','K1','K2','K3','K2','K3',],
+                       'A':['A0','A1','A2','A3','A2','A3',]})
+
+other = pd.DataFrame({'Key': ['K0', 'K1', 'K2'],
+                       'B': ['B0', 'B1', 'B2']})
+
+
+# 把 Caller 與 other 按照 index 合併, 不是 DataFrame
+caller.join(other) #如果 Key沒重疊可以這樣用
+#或把重複的 Key 做出變相的區隔
+caller.join(other, lsuffix='_caller', rsuffix='_other')
+#以 Key 為 index 進行合併
+caller.set_index('Key').join(other.set_index('Key'))
+
+
+
+
+frames = [caller, other] #成為一個 list 包含兩個 DataFrame
+result = pd.concat(frames) #把兩個 DataFrame 依照 List 順序併在一起
+
+
+
+
+""" def 函式與 if 和 return 的應用, 大於小於"""
+        
+def print_age(age):
+    if age <= 18:
+        print('年齡太小')
+        return
+    print('年齡為' + str(age))
+
+########輸出檔案成 CSV
+
+df5.to_csv('df5_out.csv',	sep=",")
+
+
+
+
+
+
+"""書上的  學會 python 從不懂到懂"""
+
+""" 函數顯示訊息"""
+
+def print_msg():
+    print('歡迎光臨!!')
+    
+""" 函數顯示 1 加到 10"""
+
+def Sum_1_to_10():
+    s = 0
+    for i in range(1,11): #For 迴圈
+        s +=i
+        print('從 1 加到 10= ' + str(s))
+
+   print_msg() 
+    
+   
+   ### 擁有參數列的 for 函數 (開始值, 結束值)
+   
+def sum_to_n(start, stop):
+    s = 0
+    for i in range(start, stop+1):
+        s += i
+        print("從 n 加到 n = " + str(s))
+
+
+# if 和 return 的應用, 大於小於
+        
+def print_age(age):
+    if age <= 18:
+        print('年齡太小')
+        return #中止函數的執行, 後面就是類似 Else
+    print('年齡為' + str(age))
