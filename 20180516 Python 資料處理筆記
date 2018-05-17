@@ -1,7 +1,8 @@
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
+import seaborn as sns
 
 
 #===================================================
@@ -14,9 +15,21 @@ import matplotlib.pyplot as plt
 a
 
 
+
 ##THIS
 
 b = pd.read_csv('ff_1070131.csv', encoding='cp950')
+
+b = pd.read_csv("/Users/mchh0814/Desktop/111.csv", encoding='cp950')
+##哈哈哈! 它的斜線是倒過來的
+## 字串結合讀檔
+
+str1 = "/Users/mchh0814/Desktop/111.csv"
+
+c = pd.read_csv(str1, encoding= 'cp950')
+
+
+
 
 
 #Making(Extracting) Test data
@@ -40,13 +53,24 @@ df5 = pd.DataFrame({'A': ['A0', 'A1', 'A2', 'A3'],
                      'D': [1, 2, 3, 4]},
                     index=[0, 1, 2, 3])
 
+"""輸出檔案成 CSV"""
+
+df5.to_csv('df5_out.csv',	sep=",")
+
+
+
+
 #加上新的變數 EE_ADD 從 D 變數抓過來 *5
 
 df5['EE_ADD'] = df5['D']*5
 
+
 #加上新變數已項目 Label 區分的
 
 df5['Weight'] = ['Fat','Skinny','Fat','Skinny']
+
+#加上都是 1 的新變數
+df5['N'] = np.ones(4)
 
 #刪除列
 
@@ -67,11 +91,11 @@ df5[df5['Weight'].isin(['Fat'])]
 df5.groupby('Weight')
 df5.groupby('Weight').sum()
 
-
+# Group by year
+df_by_year = df.groupby('release_year')
 
 #Trying to merge DataFrames
 
-"""國健署試著讀 SAS 檔時期"""
 
 import pandas as pd
 
@@ -97,6 +121,9 @@ caller.set_index('Key').join(other.set_index('Key'))
 frames = [caller, other] #成為一個 list 包含兩個 DataFrame
 result = pd.concat(frames) #把兩個 DataFrame 依照 List 順序併在一起
 
+#或直接
+result = pd.concat([caller, other])
+
 
 
 
@@ -108,16 +135,47 @@ def print_age(age):
         return
     print('年齡為' + str(age))
 
-########輸出檔案成 CSV
-
-df5.to_csv('df5_out.csv',	sep=",")
 
 
+# sort the dataframe
+sortdata = TESTff_1050108.sort_values(by=['Order_code'], ascending=[True])
+# set the index to be this and don't drop
+sortdata.set_index(keys=['Order_code'], drop=False,inplace=True)
+# get a list of order_codes
+Order_code=sortdata['Order_code'].unique().tolist()
+
+
+"""根據變數項切割資料"""
+# 創造 Data
+TESTff_1050108 = pd.DataFrame({'Branch_ID': [1,3,1,1,1,3,3,1,1,2],
+                               'HOSP_ID':['1531010279','0137170515','9431040031','1531010279','0137170515','9431040031','1531010279','0137170515','9431040031','9421040261'],
+                               'ID':['A','B','C','D','E','F','G','H','I','J']
+                               })
+
+#加上 Order code
+TESTff_1050108['Order_code'] = [25,21,20,12,33,33,21,25,25,25]
+TESTff_1050108['N'] = np.ones(10)
+
+TESTff_1050108.groupby('Order_code').sum()
 
 
 
 
-"""書上的  學會 python 從不懂到懂"""
+# 按照 order_code 分組
+Or12 = TESTff_1050108[TESTff_1050108.Order_code == 12] 
+Or20 = TESTff_1050108[TESTff_1050108.Order_code == 20] 
+Or21 = TESTff_1050108[TESTff_1050108.Order_code == 21]
+Or33 = TESTff_1050108[TESTff_1050108.Order_code == 33]
+Or25 = TESTff_1050108[TESTff_1050108.Order_code == 25]
+
+#把該同一組的合體, 在這為 12 和 20
+
+Or1220 = pd.concat([Or12, Or20])
+
+"""終於試出來 or 用 | 代替, and 用 & 代替, 然後記得用刮號 ()"""
+""" 可以直接用"""
+
+Orag = TESTff_1050108[(TESTff_1050108.Order_code == 12) | (TESTff_1050108.Order_code == 20)] 
 
 """ 函數顯示訊息"""
 
@@ -151,3 +209,46 @@ def print_age(age):
         print('年齡太小')
         return #中止函數的執行, 後面就是類似 Else
     print('年齡為' + str(age))
+   
+    
+    
+ """ lambda 匿名函式"""
+add = lambda x, y: x+y
+add(1,2) #out: 3
+
+"""傳入函式參數, def 與 lambda 一同使用"""
+add = lambda x, y: x+y
+add(1,2) #out: 3
+
+def operate_on(x, y, func):
+    return func(x,y)
+
+r = operate_on(6,7, add)
+   
+
+
+#字串使用 與 運算
+
+
+str1 = 'Hello'
+print(str1[0])
+print(str1[1])
+print(str1[2])
+print(str1[3])
+print(str1[4])
+#發現中文也通
+str2 = '我想回家'
+print(str2[0])
+print(str2[1])
+
+#互相判別
+str1 == str2 #等於
+str1 != str2 #不等於
+
+#只取字串某部份
+
+print(str2[0:2]) #2 就停, 只印 0, 1
+
+#只取字串長度
+
+len(str2)
