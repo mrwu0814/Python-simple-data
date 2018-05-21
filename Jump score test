@@ -1,0 +1,24 @@
+import numpy as np
+import pandas as pd
+
+df = pd.read_csv('Jump score test.csv', encoding= 'cp950')
+
+N, D = df.shape
+
+
+#計算總分
+df['Total'] = df['評審 A'] +df['評審 B']+df['評審 C']
+
+#用 .rank 列出名次
+df['Rank'] = df['Total'].rank(ascending=0) 
+#rank = df.sort_values(by=['Total'], ascending=[True])
+rank = df.sort_values(by=['Total'], ascending=[False]) #ascending = F 讓它從大到小
+
+
+
+
+rank2 = df['Total'].rank(ascending=1)
+
+
+#輸出檔案
+rank.to_csv('rank.csv',	sep=",", encoding= 'cp950')
