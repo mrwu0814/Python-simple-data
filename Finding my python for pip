@@ -2,3 +2,4 @@ import os
 import sys
 
 print (os.path.dirname(sys.executable) + "\Scripts\"" )
+# For python version higher than 3 use pip3 not pip
