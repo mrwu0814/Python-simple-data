@@ -28,8 +28,11 @@ str1 = "/Users/mchh0814/Desktop/111.csv"
 
 c = pd.read_csv(str1, encoding= 'cp950')
 
+# Lazy coder 的
+df = pd.read_csv(dir_path + '/ecommerce_data.csv')
 
-
+#讀取 txt 用空白分隔
+wc_97a3_10612a = pd.read_table('wc_97a3_10612a.txt',delim_whitespace=True) 
 
 
 #Making(Extracting) Test data
