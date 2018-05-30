@@ -1,0 +1,20 @@
+import pandas as pd  
+from io import StringIO     
+   
+
+ColumNames = ['X_PAY_AMT','REC_CODE','BRANCH_CODE','HOSP_ID','HOSP_DATA_TYPE','FEE_YM','APPL_TYPE','APPL_DATE','CASE_TYPE','SEQ_NO','FUNC_TYPE','FUNC_DATE','BIRTHDAY','ID','FUNC_SEO_NO','CURE_DOT','REL_MODE','INS_SEX','TRAN_IN_HOSP_ID','HOSP_CNT_TYPE','GRAD_CODE','PART_CODE','APPL_DOT','VOUCH_DATE','ORDER_TYPE','ORDER_CODE','ORDER_QTY','ORDER_UPRICE','ORDER_DOT','PHE_DEDU_DOT','ORDER_SEO_NO','CURE_E_DATE','DATA_MARK','REAL_HOSP_ID','ORDER_UPRICE_PAY','ORIG_HOSP_ID','ASSAY_DATE','HOSP_SERVER_TYPE','REASON_REA']
+ 
+result = pd.DataFrame(columns=ColumNames)
+f = pd.DataFrame(columns=ColumNames)
+
+
+with open("OPDTL_DEL_106B1_20180424113419.DAT") as OP:
+    for line in OP:
+        l2 = pd.read_csv(StringIO(line),  sep = ',', header=None, names=ColumNames)
+        result = f.append(l2)
+        f = result
+        print(line)
+        
+
+#全部跑完後
+     OP.close()
